@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class User < Base
     attributes :id, :username, :provider_user_id, :metadata
 

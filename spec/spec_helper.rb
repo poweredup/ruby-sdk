@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'pry-byebug'
 require 'webmock/rspec'
 require 'vcr'
-require 'tokenplay'
+require 'turboplay'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

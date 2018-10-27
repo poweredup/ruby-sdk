@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Base
     class << self
       attr_accessor :attributes_list

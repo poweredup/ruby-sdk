@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Setting < Base
     attributes :minted_tokens
 

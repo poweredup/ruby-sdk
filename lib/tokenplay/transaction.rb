@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Transaction < Base
     attributes :id, :idempotency_token, :from, :to, :exchange,
                :metadata, :encrypted_metadata, :status, :created_at

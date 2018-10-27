@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class List < Base
     attributes :data, :pagination
 

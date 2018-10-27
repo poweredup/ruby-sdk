@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Client
     attr_accessor :config
 
@@ -17,7 +17,7 @@ module TokenPlay
     private
 
     def load_config(options)
-      return TokenPlay.configuration unless options
+      return TurboPlay.configuration unless options
       Configuration.new(options.to_hash)
     end
   end

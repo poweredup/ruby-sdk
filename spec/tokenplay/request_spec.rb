@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-module TokenPlay
+module TurboPlay
   RSpec.describe Request do
-    let(:config) { TokenPlay::Configuration.new }
-    let(:client) { TokenPlay::Client.new(config) }
-    let(:request) { TokenPlay::Request.new(client) }
+    let(:config) { TurboPlay::Configuration.new }
+    let(:client) { TurboPlay::Client.new(config) }
+    let(:request) { TurboPlay::Request.new(client) }
     let(:conn) { Faraday.new(url: ENV['EWALLET_URL']) }
 
     describe '#send' do
@@ -20,7 +20,7 @@ module TokenPlay
 
         it 'returns a Response object' do
           response = request.send('/test', {}, conn: conn)
-          expect(response).to be_kind_of TokenPlay::Response
+          expect(response).to be_kind_of TurboPlay::Response
         end
       end
 
@@ -31,7 +31,7 @@ module TokenPlay
 
         it 'returns an error' do
           error = request.send('/test', {}, conn: conn).data
-          expect(error).to be_kind_of TokenPlay::Error
+          expect(error).to be_kind_of TurboPlay::Error
           expect(error.code).to eq 'json_parsing_error'
           expect(error.description).to eq 'The JSON received from the server ' \
                                           'could not be parsed: Error'
@@ -46,7 +46,7 @@ module TokenPlay
 
         it 'returns a Response object' do
           error = request.send('/test', {}, conn: conn).data
-          expect(error).to be_kind_of TokenPlay::Error
+          expect(error).to be_kind_of TurboPlay::Error
           expect(error.code).to eq 'invalid_status_code'
           expect(error.description).to eq 'The server returned an invalid status code: 400'
         end
@@ -59,7 +59,7 @@ module TokenPlay
 
         it 'returns an error' do
           error = request.send('/test', {}, conn: conn).data
-          expect(error).to be_kind_of TokenPlay::Error
+          expect(error).to be_kind_of TurboPlay::Error
           expect(error.code).to eq 'connection_failed'
           expect(error.description).to eq 'Test'
         end

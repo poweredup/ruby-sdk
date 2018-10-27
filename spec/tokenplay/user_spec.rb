@@ -1,16 +1,16 @@
 require 'spec_helper'
 require 'logger'
 
-module TokenPlay
+module TurboPlay
   RSpec.describe User do
     let(:config) do
-      TokenPlay::Configuration.new(
+      TurboPlay::Configuration.new(
         access_key: ENV['ACCESS_KEY'],
         secret_key: ENV['SECRET_KEY'],
         base_url:   ENV['EWALLET_URL']
       )
     end
-    let(:client) { TokenPlay::Client.new(config) }
+    let(:client) { TurboPlay::Client.new(config) }
     let(:attributes) { { id: '123' } }
 
     describe '.login' do
@@ -18,11 +18,11 @@ module TokenPlay
         it 'retrieves the user' do
           VCR.use_cassette('user/login/existing') do
             expect(ENV['PROVIDER_USER_ID']).not_to eq nil
-            auth_token = TokenPlay::User.login(
+            auth_token = TurboPlay::User.login(
               provider_user_id: ENV['PROVIDER_USER_ID'],
               client: client
             )
-            expect(auth_token).to be_kind_of TokenPlay::AuthenticationToken
+            expect(auth_token).to be_kind_of TurboPlay::AuthenticationToken
             expect(auth_token.authentication_token).not_to eq nil
           end
         end
@@ -30,7 +30,7 @@ module TokenPlay
         context 'with logging' do
           let(:logger) { Logger.new(STDOUT) }
           let(:config) do
-            TokenPlay::Configuration.new(
+            TurboPlay::Configuration.new(
               access_key: ENV['ACCESS_KEY'],
               secret_key: ENV['SECRET_KEY'],
               base_url: ENV['EWALLET_URL'],
@@ -41,12 +41,12 @@ module TokenPlay
           it 'logs the request' do
             VCR.use_cassette('user/login/existing') do
               expect(logger).to receive(:info) do |log_line|
-                expect(log_line).to include("[TokenPlay] Request: POST login\n")
+                expect(log_line).to include("[TurboPlay] Request: POST login\n")
               end
               expect(logger).to receive(:info) do |log_line|
-                expect(log_line).to include("[TokenPlay] Response: HTTP/200\n")
+                expect(log_line).to include("[TurboPlay] Response: HTTP/200\n")
               end
-              TokenPlay::User.login(
+              TurboPlay::User.login(
                 provider_user_id: ENV['PROVIDER_USER_ID'],
                 client: client
               )
@@ -58,11 +58,11 @@ module TokenPlay
       context 'when user does not exist' do
         it 'returns a not found error' do
           VCR.use_cassette('user/login/not_existing') do
-            error = TokenPlay::User.login(
+            error = TurboPlay::User.login(
               provider_user_id: '123',
               client: client
             )
-            expect(error).to be_kind_of TokenPlay::Error
+            expect(error).to be_kind_of TurboPlay::Error
             expect(error.code).to eq('user:provider_user_id_not_found')
             expect(error.description).to eq(
               'There is no user corresponding to the provided provider_user_id'
@@ -77,11 +77,11 @@ module TokenPlay
         it 'retrieves the user' do
           VCR.use_cassette('user/find/existing') do
             expect(ENV['PROVIDER_USER_ID']).not_to eq nil
-            user = TokenPlay::User.find(
+            user = TurboPlay::User.find(
               provider_user_id: ENV['PROVIDER_USER_ID'],
               client: client
             )
-            expect(user).to be_kind_of TokenPlay::User
+            expect(user).to be_kind_of TurboPlay::User
             expect(user.provider_user_id).to eq ENV['PROVIDER_USER_ID']
           end
         end
@@ -90,11 +90,11 @@ module TokenPlay
       context 'when user does not exist' do
         it 'returns a not found error' do
           VCR.use_cassette('user/find/not_existing') do
-            error = TokenPlay::User.find(
+            error = TurboPlay::User.find(
               provider_user_id: '123',
               client: client
             )
-            expect(error).to be_kind_of TokenPlay::Error
+            expect(error).to be_kind_of TurboPlay::Error
             expect(error.code).to eq 'user:provider_user_id_not_found'
             expect(error.description).to eq(
               'There is no user corresponding to the provided provider_user_id'
@@ -106,11 +106,11 @@ module TokenPlay
       context 'when passed id is nil' do
         it 'returns a not found error' do
           VCR.use_cassette('user/find/nil') do
-            error = TokenPlay::User.find(
+            error = TurboPlay::User.find(
               provider_user_id: nil,
               client: client
             )
-            expect(error).to be_kind_of TokenPlay::Error
+            expect(error).to be_kind_of TurboPlay::Error
             expect(error.code).to eq 'user:nil_id'
             expect(error.description).to eq('The given ID was nil.')
           end
@@ -124,7 +124,7 @@ module TokenPlay
           VCR.use_cassette('user/create/valid') do
             email = 'john2@doe.com'
 
-            user = TokenPlay::User.create(
+            user = TurboPlay::User.create(
               provider_user_id: 'userPLAYShopAPITest02',
               username: email,
               metadata: {
@@ -133,7 +133,7 @@ module TokenPlay
               },
               client: client
             )
-            expect(user).to be_kind_of TokenPlay::User
+            expect(user).to be_kind_of TurboPlay::User
             expect(user.username).to eq email
           end
         end
@@ -142,7 +142,7 @@ module TokenPlay
       context 'when invalid parameters' do
         it 'gets an invalid parameter error' do
           VCR.use_cassette('user/create/invalid') do
-            error = TokenPlay::User.create(
+            error = TurboPlay::User.create(
               provider_user_id: 'userPLAYShopAPITest02',
               username: 'user01',
               metadata: {
@@ -151,7 +151,7 @@ module TokenPlay
               },
               client: client
             )
-            expect(error).to be_kind_of TokenPlay::Error
+            expect(error).to be_kind_of TurboPlay::Error
             expect(error.code).to eq 'client:invalid_parameter'
           end
         end
@@ -162,7 +162,7 @@ module TokenPlay
       context 'when user does not exist' do
         it 'returns an error' do
           VCR.use_cassette('user/update/not_existing') do
-            error = TokenPlay::User.update(
+            error = TurboPlay::User.update(
               provider_user_id: 'fake',
               username: 'jane@doe.com',
               metadata: {
@@ -172,7 +172,7 @@ module TokenPlay
               client: client
             )
 
-            expect(error).to be_kind_of TokenPlay::Error
+            expect(error).to be_kind_of TurboPlay::Error
             expect(error.description).to eq(
               'There is no user corresponding to the provided provider_user_id'
             )
@@ -183,7 +183,7 @@ module TokenPlay
       context 'with valid parameters' do
         it 'creates and retrieves the user' do
           VCR.use_cassette('user/update/valid') do
-            user = TokenPlay::User.update(
+            user = TurboPlay::User.update(
               provider_user_id: 'userPLAYShopAPITest',
               username: 'jane@doe.com',
               metadata: {
@@ -193,7 +193,7 @@ module TokenPlay
               client: client
             )
 
-            expect(user).to be_kind_of TokenPlay::User
+            expect(user).to be_kind_of TurboPlay::User
             expect(user.username).to eq 'jane@doe.com'
           end
         end
@@ -202,7 +202,7 @@ module TokenPlay
       context 'with invalid parameters' do
         it 'returns an invalid parameter error' do
           VCR.use_cassette('user/update/invalid') do
-            error = TokenPlay::User.update(
+            error = TurboPlay::User.update(
               provider_user_id: 'userPLAYShopAPITest',
               username: '',
               metadata: {
@@ -212,7 +212,7 @@ module TokenPlay
               client: client
             )
 
-            expect(error).to be_kind_of TokenPlay::Error
+            expect(error).to be_kind_of TurboPlay::Error
             expect(error.description).to eq(
               "Invalid parameter provided. `username` can't be blank."
             )

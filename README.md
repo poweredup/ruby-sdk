@@ -1,13 +1,13 @@
-# TokenPlay
+# TurboPlay
 
-TokenPlay is a Ruby SDK meant to communicate with an TokenPlay eWallet setup.
+TurboPlay is a Ruby SDK meant to communicate with an TurboPlay eWallet setup.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'tokenplay'
+gem 'turboplay'
 ```
 
 And then execute:
@@ -16,29 +16,29 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install tokenplay
+    $ gem install turboplay
 
 ## Initialization
 
-The TokenPlay SDK can either be initialized on a global level, or a on client basis. However, initializing on a global level is not necessarily what you want and won't be thread-safe. If using Rails, Sticking a `client` method in your `ApplicationController` will probably be a better solution than using an initializer as shown below.
+The TurboPlay SDK can either be initialized on a global level, or a on client basis. However, initializing on a global level is not necessarily what you want and won't be thread-safe. If using Rails, Sticking a `client` method in your `ApplicationController` will probably be a better solution than using an initializer as shown below.
 
 In the end, the choice is yours and the optimal solution depends on your needs.
 
 ### Global init
 
 ```ruby
-# config/initializers/tokenplay.rb
-TokenPlay.configure do |config|
-  config.access_key = ENV['TOKENPLAY_ACCESS_KEY']
-  config.secret_key = ENV['TOKENPLAY_SECRET_KEY']
-  config.base_url   = ENV['TOKENPLAY_BASE_URL']
+# config/initializers/turboplay.rb
+TurboPlay.configure do |config|
+  config.access_key = ENV['TURBOPLAY_ACCESS_KEY']
+  config.secret_key = ENV['TURBOPLAY_SECRET_KEY']
+  config.base_url   = ENV['TURBOPLAY_BASE_URL']
 end
 ```
 
-If initialized this way, the `TokenPlay` classes can be used without specifying the client.
+If initialized this way, the `TurboPlay` classes can be used without specifying the client.
 
 ```ruby
-user = TokenPlay::User.find(provider_user_id: 'some_uuid')
+user = TurboPlay::User.find(provider_user_id: 'some_uuid')
 ```
 
 ### Logging
@@ -46,11 +46,11 @@ user = TokenPlay::User.find(provider_user_id: 'some_uuid')
 The Ruby SDK comes with the possibility to log requests to the eWallet. For example, within a Rails application, the following can be defined:
 
 ```ruby
-# config/initializers/tokenplay.rb
-TokenPlay.configure do |config|
-  config.access_key = ENV['TOKENPLAY_ACCESS_KEY']
-  config.secret_key = ENV['TOKENPLAY_SECRET_KEY']
-  config.base_url   = ENV['TOKENPLAY_BASE_URL']
+# config/initializers/turboplay.rb
+TurboPlay.configure do |config|
+  config.access_key = ENV['TURBOPLAY_ACCESS_KEY']
+  config.secret_key = ENV['TURBOPLAY_SECRET_KEY']
+  config.base_url   = ENV['TURBOPLAY_BASE_URL']
   config.logger     = Rails.logger
 end
 ```
@@ -58,20 +58,20 @@ end
 This would provide the following in the logs:
 
 ```
-[TokenPlay] Request: POST login
+[TurboPlay] Request: POST login
 User-Agent: Faraday v0.13.1
 Authorization: [FILTERED]
-Accept: application/vnd.tokenplay.v1+json
-Content-Type: application/vnd.tokenplay.v1+json
+Accept: application/vnd.turboplay.v1+json
+Content-Type: application/vnd.turboplay.v1+json
 
 {"provider_user_id":"aeab0d51-b3d9-415d-98ef-f9162903f024"}
 
-[TokenPlay] Response: HTTP/200
+[TurboPlay] Response: HTTP/200
 Connection: close
 Server: Cowboy
 Date: Wed, 14 Feb 2018 04:35:52 GMT
 Content-Length: 140
-Content-Type: application/vnd.tokenplay.v1+json; charset=utf-8
+Content-Type: application/vnd.turboplay.v1+json; charset=utf-8
 Cache-Control: max-age=0, private, must-revalidate
 
 {"version":"1","success":true,"data":{"object":"authentication_token","authentication_token":[FILTERED]}}
@@ -82,18 +82,18 @@ Cache-Control: max-age=0, private, must-revalidate
 With this approach, the client needs to be passed in every call and will be used as the call initiator.
 
 ```ruby
-client = TokenPlay::Client.new(
-  access_key: ENV['TOKENPLAY_ACCESS_KEY'],
-  secret_key: ENV['TOKENPLAY_SECRET_KEY'],
-  base_url:   ENV['TOKENPLAY_BASE_URL']
+client = TurboPlay::Client.new(
+  access_key: ENV['TURBOPLAY_ACCESS_KEY'],
+  secret_key: ENV['TURBOPLAY_SECRET_KEY'],
+  base_url:   ENV['TURBOPLAY_BASE_URL']
 )
 
-user = TokenPlay::User.find(provider_user_id: 'some_uuid', client: client)
+user = TurboPlay::User.find(provider_user_id: 'some_uuid', client: client)
 ```
 
 ## Usage
 
-All the calls below will communicate with the TokenPlay wallet specified in the `base_url` configuration. They will either return an instance of `TokenPlay:Error` or of the appropriate model (`User`, `Balance`, etc.), see [the list of models](#models) for more information.
+All the calls below will communicate with the TurboPlay wallet specified in the `base_url` configuration. They will either return an instance of `TurboPlay:Error` or of the appropriate model (`User`, `Balance`, etc.), see [the list of models](#models) for more information.
 
 __The method `#error?` can be used on any model to check if it's an error or a valid result.__
 
@@ -104,21 +104,21 @@ __The method `#error?` can be used on any model to check if it's an error or a v
 Retrieve a user from the eWallet API.
 
 ```ruby
-user = TokenPlay::User.find(
+user = TurboPlay::User.find(
   provider_user_id: 'some_uuid'
 )
 ```
 
 Returns either:
-- An `TokenPlay::User` instance
-- An `TokenPlay::Error` instance
+- An `TurboPlay::User` instance
+- An `TurboPlay::Error` instance
 
 #### Create
 
 Create a user in the eWallet API database. The `provider_user_id` is how a user is identified and cannot be changed later on.
 
 ```ruby
-user = TokenPlay::User.create(
+user = TurboPlay::User.create(
   provider_user_id: 'some_uuid',
   username: 'john@doe.com',
   metadata: {
@@ -129,15 +129,15 @@ user = TokenPlay::User.create(
 ```
 
 Returns either:
-- An `TokenPlay::User` instance
-- An `TokenPlay::Error` instance
+- An `TurboPlay::User` instance
+- An `TurboPlay::Error` instance
 
 #### Update
 
 Update a user in the eWallet API database. All fields need to be provided and the values in the eWallet database will be replaced with the sent ones (behaves like a HTTP `PUT`). Sending `metadata: {}` in the request below would remove the `first_name` and `last_name` fields for example.
 
 ```ruby
-user = TokenPlay::User.update(
+user = TurboPlay::User.update(
   provider_user_id: 'some_uuid',
   username: 'jane@doe.com',
   metadata: {
@@ -148,8 +148,8 @@ user = TokenPlay::User.update(
 ```
 
 Returns either:
-- An `TokenPlay::User` instance
-- An `TokenPlay::Error` instance
+- An `TurboPlay::User` instance
+- An `TurboPlay::Error` instance
 
 ### Managing Sessions
 
@@ -158,14 +158,14 @@ Returns either:
 Login a user and retrieve an `authentication_token` that can be passed to a mobile client to make calls to the eWallet API directly.
 
 ```ruby
-auth_token = TokenPlay::User.login(
+auth_token = TurboPlay::User.login(
   provider_user_id: 'some_uuid'
 )
 ```
 
 Returns either:
-- An `TokenPlay::AuthenticationToken` instance
-- An `TokenPlay::Error` instance
+- An `TurboPlay::AuthenticationToken` instance
+- An `TurboPlay::Error` instance
 
 ### Managing Balances
 
@@ -178,21 +178,21 @@ Returns either:
 Retrieve a list of addresses (with only one address for now) containing a list of balances.
 
 ```ruby
-address = TokenPlay::Balance.all(
+address = TurboPlay::Balance.all(
   provider_user_id: 'some_uuid'
 )
 ```
 
 Returns either:
-- An `TokenPlay::Address` instance
-- An `TokenPlay::Error` instance
+- An `TurboPlay::Address` instance
+- An `TurboPlay::Error` instance
 
 #### Credit
 
 Transfer the specified amount (as an integer, down to the `subunit_to_unit`) from the master wallet to the specified user's wallet. In the following methods, an idempotency token is used to ensure that one specific credit/debit occurs only once. The implementer is responsible for ensuring that those idempotency tokens are unique - sending the same one two times will prevent the second transaction from happening.
 
 ```ruby
-address = TokenPlay::Balance.credit(
+address = TurboPlay::Balance.credit(
   provider_user_id: 'some_uuid',
   token_id: 'PLAY:5e9c0be5-15d1-4463-9ec2-02bc8ded7120',
   amount: 10_000,
@@ -204,7 +204,7 @@ address = TokenPlay::Balance.credit(
 To use the primary balance of a specific account instead of the master account's as the sending balance, specify an `account_id`:
 
 ```ruby
-address = TokenPlay::Balance.credit(
+address = TurboPlay::Balance.credit(
   account_id: 'account_uuid',
   provider_user_id: 'some_uuid',
   token_id: 'PLAY:5e9c0be5-15d1-4463-9ec2-02bc8ded7120',
@@ -219,7 +219,7 @@ address = TokenPlay::Balance.credit(
 Transfer the specified amount (as an integer, down to the `subunit_to_unit`) from the specified user's wallet back to the master wallet.
 
 ```ruby
-address = TokenPlay::Balance.debit(
+address = TurboPlay::Balance.debit(
   provider_user_id: 'some_uuid',
   token_id: 'PLAY:5e9c0be5-15d1-4463-9ec2-02bc8ded7120',
   amount: 10_000,
@@ -231,7 +231,7 @@ address = TokenPlay::Balance.debit(
 To use the primary balance of a specific account instead of the master account as the receiving balance, specify an `account_id`:
 
 ```ruby
-address = TokenPlay::Balance.debit(
+address = TurboPlay::Balance.debit(
   account_id: 'account_uuid',
   provider_user_id: 'some_uuid',
   token_id: 'PLAY:5e9c0be5-15d1-4463-9ec2-02bc8ded7120',
@@ -244,7 +244,7 @@ address = TokenPlay::Balance.debit(
 By default, points won't be burned and will be returned to the account's primary balance (either the master's balance or the account's specified with `account_id`). If you wish to burn points, send them to a burn address. By default, a burn address identified by `'burn'` is created for each account which can be set in the `burn_balance_identifier` field:
 
 ```ruby
-address = TokenPlay::Balance.debit(
+address = TurboPlay::Balance.debit(
   account_id: 'account_uuid',
   burn_balance_identifier: 'burn',
   provider_user_id: 'some_uuid',
@@ -262,12 +262,12 @@ address = TokenPlay::Balance.debit(
 Retrieve the settings from the eWallet API.
 
 ```ruby
-settings = TokenPlay::Setting.all
+settings = TurboPlay::Setting.all
 ```
 
 Returns either:
-- An `TokenPlay::Setting` instance
-- An `TokenPlay::Error` instance
+- An `TurboPlay::Setting` instance
+- An `TurboPlay::Error` instance
 
 
 ### Listing transactions
@@ -298,17 +298,17 @@ Available values: `id`, `idempotency_token`, `status`, `from`, `to`
 Get the list of transactions from the eWallet API.
 
 ```ruby
-transaction = TokenPlay::Transaction.all
+transaction = TurboPlay::Transaction.all
 ```
 
 Returns either:
-- An `TokenPlay::List` instance of `TokenPlay::Transaction` instances
-- An `TokenPlay::Error` instance
+- An `TurboPlay::List` instance of `TurboPlay::Transaction` instances
+- An `TurboPlay::Error` instance
 
 Parameters can be specified in the following way:
 
 ```ruby
-transaction = TokenPlay::Transaction.all(params: {
+transaction = TurboPlay::Transaction.all(params: {
   page: 1,
   per_page: 10,
   sort_by: 'created_at',
@@ -326,7 +326,7 @@ transaction = TokenPlay::Transaction.all(params: {
 Get the list of transactions for a specific provider user ID from the eWallet API.
 
 ```ruby
-transaction = TokenPlay::Transaction.all(
+transaction = TurboPlay::Transaction.all(
   params: {
     provider_user_id: "some_uuid"
   }
@@ -334,13 +334,13 @@ transaction = TokenPlay::Transaction.all(
 ```
 
 Returns either:
-- An `TokenPlay::List` instance of `TokenPlay::Transaction` instances
-- An `TokenPlay::Error` instance
+- An `TurboPlay::List` instance of `TurboPlay::Transaction` instances
+- An `TurboPlay::Error` instance
 
 Parameters can be specified in the following way:
 
 ```ruby
-transaction = TokenPlay::Transaction.all(params: {
+transaction = TurboPlay::Transaction.all(params: {
   provider_user_id: "some_uuid",
   page: 1,
   per_page: 10,
@@ -359,24 +359,24 @@ Since those transactions are already scoped down to the given user, it is NOT PO
 
 Here is the list of all the models available in the SDK with their attributes.
 
-### `TokenPlay::Address`
+### `TurboPlay::Address`
 
 Attributes:
 - `address` (string)
-- `balances` (array of TokenPlay::Balance)
+- `balances` (array of TurboPlay::Balance)
 
-### `TokenPlay::Balance`
+### `TurboPlay::Balance`
 
 Attributes:
 - `amount` (integer)
-- `minted_token` (TokenPlay::MintedToken)
+- `minted_token` (TurboPlay::MintedToken)
 
-### `TokenPlay::AuthenticationToken`
+### `TurboPlay::AuthenticationToken`
 
 Attributes:
 - `authentication_token` (string)
 
-### `TokenPlay::Pagination`
+### `TurboPlay::Pagination`
 
 Attributes
 - `per_page` (integer)
@@ -384,20 +384,20 @@ Attributes
 - `first_page?` (boolean)
 - `last_page?` (boolean)
 
-### `TokenPlay::List`
+### `TurboPlay::List`
 
 Attributes:
 - `data` (array of models)
-- `pagination` (TokenPlay::Pagination)
+- `pagination` (TurboPlay::Pagination)
 
-### `TokenPlay::MintedToken`
+### `TurboPlay::MintedToken`
 
 Attributes:
 - `symbol` (string)
 - `name` (string)
 - `subunit_to_unit` (integer)
 
-### `TokenPlay::User`
+### `TurboPlay::User`
 
 Attributes:
 - `id` (string)
@@ -405,30 +405,30 @@ Attributes:
 - `provider_user_id` (string)
 - `metadata` (hash)
 
-### `TokenPlay::Exchange`
+### `TurboPlay::Exchange`
 
 - `rate` (integer)
 
-### `TokenPlay::TransactionSource`
+### `TurboPlay::TransactionSource`
 
 - `address` (string)
 - `amount` (integer)
-- `minted_token` (`TokenPlay::MintedToken`)
+- `minted_token` (`TurboPlay::MintedToken`)
 
-### `TokenPlay::Transaction`
+### `TurboPlay::Transaction`
 
 - `id` (string)
 - `idempotency_token` (string)
 - `amount` (integer)
-- `minted_token` (`TokenPlay::MintedToken`)
-- `from` (`TokenPlay::TransactionSource`)
-- `to` (`TokenPlay::TransactionSource`)
-- `exchange` (`TokenPlay::Exchange`)
+- `minted_token` (`TurboPlay::MintedToken`)
+- `from` (`TurboPlay::TransactionSource`)
+- `to` (`TurboPlay::TransactionSource`)
+- `exchange` (`TurboPlay::Exchange`)
 - `status` (string)
 - `created_at` (string)
 - `updated_at` (string)
 
-### `TokenPlay::Error`
+### `TurboPlay::Error`
 
 Attributes:
 - `code` (string)

@@ -1,6 +1,6 @@
-module TokenPlay
+module TurboPlay
   class HTTPLogger
-    LABEL = '[TokenPlay]'.freeze
+    LABEL = '[TurboPlay]'.freeze
 
     def initialize(logger = nil)
       @logger = logger

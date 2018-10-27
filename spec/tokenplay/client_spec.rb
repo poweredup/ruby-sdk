@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-module TokenPlay
+module TurboPlay
   RSpec.describe Client do
     describe '#initialize' do
       context 'with overriding options' do
         it 'overrides the values in the configuration' do
-          config = TokenPlay::Client.new(access_key: 'access_key',
+          config = TurboPlay::Client.new(access_key: 'access_key',
                                        secret_key: 'secret_key',
                                        base_url: ENV['EWALLET_URL']).config
           expect(config.access_key).to eq('access_key')
@@ -18,7 +18,7 @@ module TokenPlay
 
       context 'without the options argument' do
         it 'loads the default configuration' do
-          config = TokenPlay::Client.new.config
+          config = TurboPlay::Client.new.config
           expect(config.access_key).to eq(nil)
           expect(config.secret_key).to eq(nil)
           expect(config.base_url).to eq(nil)

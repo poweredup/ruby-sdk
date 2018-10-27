@@ -1,17 +1,17 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'tokenplay/version'
+require 'turboplay/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'tokenplay'
-  spec.version       = TokenPlay::VERSION
+  spec.name          = 'turboplay'
+  spec.version       = TurboPlay::VERSION
   spec.authors       = ['Vince']
-  spec.email         = ['vincem@tokenplay.com']
+  spec.email         = ['vincem@turboplay.com']
 
-  spec.summary       = 'TokenPlay Ruby SDK.'
-  spec.description   = 'TokenPlay Ruby SDK.'
-  spec.homepage      = 'https://ewallet.tokenplay.com/'
+  spec.summary       = 'TurboPlay Ruby SDK.'
+  spec.description   = 'TurboPlay Ruby SDK.'
+  spec.homepage      = 'https://ewallet.turboplay.com/'
   spec.license       = 'Apachev2'
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|

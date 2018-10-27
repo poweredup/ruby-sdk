@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe TokenPlay::HTTPLogger do
+RSpec.describe TurboPlay::HTTPLogger do
   let(:logger) { StringIO.new }
-  let(:http_logger) { TokenPlay::HTTPLogger.new(logger) }
+  let(:http_logger) { TurboPlay::HTTPLogger.new(logger) }
 
   describe '#log_request' do
     it 'logs the request' do
@@ -12,7 +12,7 @@ RSpec.describe TokenPlay::HTTPLogger do
                        body: { 'something' => 'interesting' })
       expect(logger).to receive(:info) do |log_line|
         expect(log_line).to eq(
-          "[TokenPlay] Request: POST path\nAuthorization: [FILTERED]\nSome: " \
+          "[TurboPlay] Request: POST path\nAuthorization: [FILTERED]\nSome: " \
           "header\n\n{\"something\"=>\"interesting\"}\n"
         )
       end
@@ -28,7 +28,7 @@ RSpec.describe TokenPlay::HTTPLogger do
                         body: { 'something' => 'interesting' })
       expect(logger).to receive(:info) do |log_line|
         expect(log_line).to eq(
-          "[TokenPlay] Response: HTTP/200\nContent-Type: application/json\nSome: " \
+          "[TurboPlay] Response: HTTP/200\nContent-Type: application/json\nSome: " \
           "header\n\n{\"something\"=>\"interesting\"}\n"
         )
       end

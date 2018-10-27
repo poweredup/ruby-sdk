@@ -1,32 +1,32 @@
 require 'faraday'
 require 'json'
 
-require 'tokenplay/invalid_configuration'
-require 'tokenplay/error_handler'
+require 'turboplay/invalid_configuration'
+require 'turboplay/error_handler'
 
-require 'tokenplay/http_logger'
-require 'tokenplay/response'
-require 'tokenplay/request'
-require 'tokenplay/client'
+require 'turboplay/http_logger'
+require 'turboplay/response'
+require 'turboplay/request'
+require 'turboplay/client'
 
-require 'tokenplay/base'
-require 'tokenplay/error'
-require 'tokenplay/pagination'
-require 'tokenplay/list'
-require 'tokenplay/minted_token'
-require 'tokenplay/setting'
-require 'tokenplay/balance'
-require 'tokenplay/address'
-require 'tokenplay/user'
-require 'tokenplay/authentication_token'
-require 'tokenplay/exchange'
-require 'tokenplay/transaction_source'
-require 'tokenplay/transaction'
+require 'turboplay/base'
+require 'turboplay/error'
+require 'turboplay/pagination'
+require 'turboplay/list'
+require 'turboplay/minted_token'
+require 'turboplay/setting'
+require 'turboplay/balance'
+require 'turboplay/address'
+require 'turboplay/user'
+require 'turboplay/authentication_token'
+require 'turboplay/exchange'
+require 'turboplay/transaction_source'
+require 'turboplay/transaction'
 
-require 'tokenplay/version'
-require 'tokenplay/configuration'
+require 'turboplay/version'
+require 'turboplay/configuration'
 
-module TokenPlay
+module TurboPlay
   class << self
     attr_writer :configuration
 

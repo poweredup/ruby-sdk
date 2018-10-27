@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Balance < Base
     attributes :amount, :minted_token
 

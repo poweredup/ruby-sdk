@@ -1,32 +1,32 @@
-module TokenPlay
+module TurboPlay
   class Configuration
     OPTIONS = {
-      access_key: -> { ENV['TOKENPLAY_ACCESS_KEY'] },
-      secret_key: -> { ENV['TOKENPLAY_SECRET_KEY'] },
-      base_url: -> { ENV['TOKENPLAY_BASE_URL'] },
+      access_key: -> { ENV['TURBOPLAY_ACCESS_KEY'] },
+      secret_key: -> { ENV['TURBOPLAY_SECRET_KEY'] },
+      base_url: -> { ENV['TURBOPLAY_BASE_URL'] },
       logger: nil
     }.freeze
 
-    TOKENPLAY_OPTIONS = {
+    TURBOPLAY_OPTIONS = {
       api_version: '1',
       auth_scheme: 'PLAYServer',
       models: {
-        user: TokenPlay::User,
-        error: TokenPlay::Error,
-        authentication_token: TokenPlay::AuthenticationToken,
-        address: TokenPlay::Address,
-        balance: TokenPlay::Balance,
-        minted_token: TokenPlay::MintedToken,
-        list: TokenPlay::List,
-        setting: TokenPlay::Setting,
-        transaction: TokenPlay::Transaction,
-        exchange: TokenPlay::Exchange,
-        transaction_source: TokenPlay::TransactionSource
+        user: TurboPlay::User,
+        error: TurboPlay::Error,
+        authentication_token: TurboPlay::AuthenticationToken,
+        address: TurboPlay::Address,
+        balance: TurboPlay::Balance,
+        minted_token: TurboPlay::MintedToken,
+        list: TurboPlay::List,
+        setting: TurboPlay::Setting,
+        transaction: TurboPlay::Transaction,
+        exchange: TurboPlay::Exchange,
+        transaction_source: TurboPlay::TransactionSource
       }
     }.freeze
 
     attr_accessor(*OPTIONS.keys)
-    attr_reader(*TOKENPLAY_OPTIONS.keys)
+    attr_reader(*TURBOPLAY_OPTIONS.keys)
 
     def initialize(options = {})
       OPTIONS.each do |name, val|
@@ -35,7 +35,7 @@ module TokenPlay
         instance_variable_set("@#{name}", value)
       end
 
-      TOKENPLAY_OPTIONS.each do |name, value|
+      TURBOPLAY_OPTIONS.each do |name, value|
         instance_variable_set("@#{name}", value)
       end
     end

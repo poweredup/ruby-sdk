@@ -12,9 +12,9 @@ http_interactions:
       Authorization:
       - PLAYServer QUNDRVNTX0tFWTpTRUNSRVRfS0VZ
       Accept:
-      - application/vnd.tokenplay.v1+json
+      - application/vnd.turboplay.v1+json
       Content-Type:
-      - application/vnd.tokenplay.v1+json
+      - application/vnd.turboplay.v1+json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -27,7 +27,7 @@ http_interactions:
       Date:
       - Mon, 05 Mar 2018 07:51:05 GMT
       Content-Type:
-      - application/vnd.tokenplay.v1+json; charset=utf-8
+      - application/vnd.turboplay.v1+json; charset=utf-8
       Content-Length:
       - '216'
       Connection:

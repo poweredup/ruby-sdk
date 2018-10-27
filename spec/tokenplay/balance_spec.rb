@@ -1,30 +1,30 @@
 require 'spec_helper'
 require 'securerandom'
 
-module TokenPlay
+module TurboPlay
   RSpec.describe Balance do
     let(:config) do
-      TokenPlay::Configuration.new(
+      TurboPlay::Configuration.new(
         access_key: ENV['ACCESS_KEY'],
         secret_key: ENV['SECRET_KEY'],
         base_url: ENV['EWALLET_URL']
       )
     end
-    let(:client) { TokenPlay::Client.new(config) }
+    let(:client) { TurboPlay::Client.new(config) }
     let(:attributes) { { id: '123' } }
 
     describe '.all' do
       it 'retrieves the list of balances' do
         VCR.use_cassette('balance/all') do
           expect(ENV['PROVIDER_USER_ID']).not_to eq nil
-          list = TokenPlay::Balance.all(
+          list = TurboPlay::Balance.all(
             provider_user_id: ENV['PROVIDER_USER_ID'],
             client: client
           )
-          expect(list).to be_kind_of TokenPlay::List
-          expect(list.first).to be_kind_of TokenPlay::Address
-          expect(list.first.balances.first).to be_kind_of TokenPlay::Balance
-          expect(list.first.balances.first.minted_token).to be_kind_of TokenPlay::MintedToken
+          expect(list).to be_kind_of TurboPlay::List
+          expect(list.first).to be_kind_of TurboPlay::Address
+          expect(list.first.balances.first).to be_kind_of TurboPlay::Balance
+          expect(list.first.balances.first.minted_token).to be_kind_of TurboPlay::MintedToken
         end
       end
     end
@@ -34,7 +34,7 @@ module TokenPlay
         it "credits the user's balance" do
           VCR.use_cassette('balance/credit/valid') do
             expect(ENV['PROVIDER_USER_ID']).not_to eq nil
-            balances = TokenPlay::Balance.credit(
+            balances = TurboPlay::Balance.credit(
               provider_user_id: ENV['PROVIDER_USER_ID'],
               token_id: ENV['TOKEN_ID'],
               amount: 10_000,
@@ -42,9 +42,9 @@ module TokenPlay
               idempotency_token: SecureRandom.uuid
             )
 
-            expect(balances).to be_kind_of TokenPlay::List
+            expect(balances).to be_kind_of TurboPlay::List
             address = balances.first
-            expect(address).to be_kind_of TokenPlay::Address
+            expect(address).to be_kind_of TurboPlay::Address
           end
         end
       end
@@ -53,7 +53,7 @@ module TokenPlay
         it "credits the user's balance" do
           VCR.use_cassette('balance/credit/valid_optional') do
             expect(ENV['PROVIDER_USER_ID']).not_to eq nil
-            balances = TokenPlay::Balance.credit(
+            balances = TurboPlay::Balance.credit(
               account_id: ENV['ACCOUNT_ID'],
               burn_balance_identifier: 'burn',
               provider_user_id: ENV['PROVIDER_USER_ID'],
@@ -63,7 +63,7 @@ module TokenPlay
               idempotency_token: SecureRandom.uuid
             )
 
-            expect(balances).to be_kind_of TokenPlay::List
+            expect(balances).to be_kind_of TurboPlay::List
           end
         end
       end
@@ -74,7 +74,7 @@ module TokenPlay
         it "debits the user's balance" do
           VCR.use_cassette('balance/debit/valid') do
             expect(ENV['PROVIDER_USER_ID']).not_to eq nil
-            balances = TokenPlay::Balance.debit(
+            balances = TurboPlay::Balance.debit(
               provider_user_id: ENV['PROVIDER_USER_ID'],
               token_id: ENV['TOKEN_ID'],
               amount: 1000,
@@ -82,7 +82,7 @@ module TokenPlay
               idempotency_token: SecureRandom.uuid
             )
 
-            expect(balances).to be_kind_of TokenPlay::List
+            expect(balances).to be_kind_of TurboPlay::List
           end
         end
       end
@@ -91,7 +91,7 @@ module TokenPlay
         it "debit/s the user's balance" do
           VCR.use_cassette('balance/debit/valid_optional') do
             expect(ENV['PROVIDER_USER_ID']).not_to eq nil
-            balances = TokenPlay::Balance.debit(
+            balances = TurboPlay::Balance.debit(
               account_id: ENV['ACCOUNT_ID'],
               burn_balance_identifier: 'burn',
               provider_user_id: ENV['PROVIDER_USER_ID'],
@@ -101,7 +101,7 @@ module TokenPlay
               idempotency_token: SecureRandom.uuid
             )
 
-            expect(balances).to be_kind_of TokenPlay::List
+            expect(balances).to be_kind_of TurboPlay::List
           end
         end
       end

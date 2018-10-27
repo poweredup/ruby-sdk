@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Request
     PARAM_FIELDS = %i[page per_page search_term search_terms sort_by sort_dir].freeze
 
@@ -62,7 +62,7 @@ module TokenPlay
     end
 
     def content_type
-      "application/vnd.tokenplay.v#{@config.api_version}+json"
+      "application/vnd.turboplay.v#{@config.api_version}+json"
     end
 
     def authorization

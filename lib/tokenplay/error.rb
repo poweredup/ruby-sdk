@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Error < Base
     attributes :code, :description, :messages
 

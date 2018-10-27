@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Exchange < Base
     attributes :rate
   end

@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Response
     def initialize(body, client)
       @body = body

@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class Address < Base
     attributes :address, :balances
 

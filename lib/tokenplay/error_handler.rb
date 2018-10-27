@@ -1,4 +1,4 @@
-module TokenPlay
+module TurboPlay
   class ErrorHandler
     ERRORS = {
       nil_id: {

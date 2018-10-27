@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-module TokenPlay
+module TurboPlay
   RSpec.describe Base do
-    class MyTestModel < TokenPlay::Base
+    class MyTestModel < TurboPlay::Base
       attributes :id, :name
     end
 

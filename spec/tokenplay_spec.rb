@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe TokenPlay do
+RSpec.describe TurboPlay do
   it 'has a version number' do
-    expect(TokenPlay::VERSION).not_to be nil
+    expect(TurboPlay::VERSION).not_to be nil
   end
 end
